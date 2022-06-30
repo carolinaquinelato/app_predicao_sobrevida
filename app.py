@@ -8,8 +8,11 @@ st.set_page_config(
 	initial_sidebar_state="expanded",
 )
 
+
+
 def main():
-	st.title("Preencha o formulário para realizar a predição")
+	st.title("Sistema de apoio à decisão para sobrevida de câncer de mama")
+
 
 if __name__ == '__main__':
 	main()
