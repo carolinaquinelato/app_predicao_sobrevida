@@ -22,9 +22,9 @@ def main():
 
 	model = load_model('model/rsf_2022.pkl')
 
-	st.title("Sistema de apoio à decisão para sobrevida de câncer de mama")
+	st.markdown("<h1 style='text-align: center; color: white;'>Predição de Sobrevida para Câncer de Mama</h1>", unsafe_allow_html=True)
 
-	st.subheader("Calculadora Online")
+	st.markdown("<h2 style='text-align: center; color: white;'>Selecione as informações abaixo para realizar a predição de sobrevida</h2>", unsafe_allow_html=True)
 
 	form = st.form(key="annotation")
 
@@ -37,7 +37,7 @@ def main():
 		prog = st.radio("Progesterona", ('Positivo','Negativo'))
 
 
-		submitted = st.form_submit_button(label="Submiter")
+		submitted = st.form_submit_button(label="Submeter")
 
 		result = {'idade':idade,
 		'estadiamento' : estadiamento,
@@ -99,6 +99,7 @@ def main():
 				sns.lineplot(hazard['Meses'],hazard['Hazard Acumulado'], drawstyle='steps-pre')
 				st.pyplot(fig)
 
+			
 			
 if __name__ == "__main__":
     main()
