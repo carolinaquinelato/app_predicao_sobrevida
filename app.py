@@ -1,3 +1,4 @@
+from turtle import shape
 import joblib
 import streamlit as st
 import streamlit.components.v1 as stc 
@@ -7,6 +8,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.express as px 
 
 st.set_page_config(
 	page_title="App Predição de Sobrevida",
@@ -22,22 +24,37 @@ def main():
 
 	model = load_model('model/rsf_2022.pkl')
 
-	st.markdown("<h1 style='text-align: center; color: white;'>Predição de Sobrevida para Câncer de Mama</h1>", unsafe_allow_html=True)
+	st.markdown("<h1 style='text-align: center; color:#666a68;'>Predição de Sobrevida para Câncer de Mama</h1>", unsafe_allow_html=True)
 
-	st.markdown("<h2 style='text-align: center; color: white;'>Selecione as informações abaixo para realizar a predição de sobrevida</h2>", unsafe_allow_html=True)
+	st.markdown("<h2 style='text-align: center; color: #989e9a;'>Selecione as informações abaixo para realizar a predição de sobrevida</h2>", unsafe_allow_html=True)
 
 	form = st.form(key="annotation")
 
 	with form:
+		col1,col2 = st.columns(2)
 
-		idade = st.number_input("Idade",1,100, value=54)
-		estadiamento = st.selectbox("Estadiamento",("IIA","IIB", "IIIA", "IIIB", "IIIC"))
+		with col1:
+			idade = st.number_input("Idade",1,100, value=54)
+			prog = st.radio("Progesterona", ('Positivo','Negativo'))
+
+		with col2:	
+			estadiamento = st.selectbox("Estadiamento",("IIA","IIB", "IIIA", "IIIB", "IIIC"))
+			estrog = st.radio("Estrogênio", ('Positivo','Negativo'))
+			
+
 		tam_tumor = st.slider("Tamanho do tumor: ", min_value=1, max_value=150, value=24)
-		estrog = st.radio("Estrogênio", ('Positivo','Negativo'))
-		prog = st.radio("Progesterona", ('Positivo','Negativo'))
-
 
 		submitted = st.form_submit_button(label="Submeter")
+	
+		if idade>53:
+			idade =1
+		else:
+			idade=2
+
+		if tam_tumor>24:
+			tam_tumor=1
+		else:
+			tam_tumor=2
 
 		result = {'idade':idade,
 		'estadiamento' : estadiamento,
@@ -48,6 +65,7 @@ def main():
 
 		encoded_result = []
 
+		
 		neg_pos_map = {"Negativo":0,"Positivo":1}
 
 		def get_value(val,my_dict):
@@ -70,6 +88,8 @@ def main():
 			else:
 				encoded_result.append(get_other_value(i))
 
+		
+
 	if submitted:
 			single_sample = np.array(encoded_result).reshape(1,-1)
 
@@ -79,27 +99,22 @@ def main():
 
 				surv = model.predict_survival_function(single_sample, return_array=True)
 				
-				st.write("Curva de probbilidade de sobrevivência")
-				
 				survival = pd.DataFrame({'Probabilidade de Sobrevivência': value for value in surv})
 				survival['Meses'] = survival.index
 
-				fig = plt.figure()
-				sns.lineplot(survival['Meses'],survival['Probabilidade de Sobrevivência'], drawstyle='steps-pre')
-				st.pyplot(fig)
+				p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevivência', markers=True, title="Curva de probbilidade de sobrevivência")
+				p1.update_traces(line_color='#666a68')
+				st.plotly_chart(p1)
 
 			with col2:
 				surv2 = model.predict_cumulative_hazard_function(single_sample, return_array=True)
 
-				st.write("Predição da função de Hazard acumulada")
 				hazard = pd.DataFrame({'Hazard Acumulado': value for value in surv2})
 				hazard['Meses'] = hazard.index
 
-				fig = plt.figure()
-				sns.lineplot(hazard['Meses'],hazard['Hazard Acumulado'], drawstyle='steps-pre')
-				st.pyplot(fig)
-
-			
+				p2 = px.line(hazard,x='Meses',y='Hazard Acumulado', markers=True, title="Predição da função de Hazard acumulada")
+				p2.update_traces(line_color='#666a68')
+				st.plotly_chart(p2)
 			
 if __name__ == "__main__":
     main()
