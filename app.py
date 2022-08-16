@@ -43,6 +43,7 @@ def main():
 			
 
 		tam_tumor = st.slider("Tamanho do tumor: ", min_value=1, max_value=150, value=24)
+		faixa = st.slider("Escolha quantos anos de visualização:", min_value=3, max_value=10, value=5)
 
 		submitted = st.form_submit_button(label="Submeter")
 	
@@ -88,7 +89,6 @@ def main():
 			else:
 				encoded_result.append(get_other_value(i))
 
-		
 
 	if submitted:
 			single_sample = np.array(encoded_result).reshape(1,-1)
@@ -100,7 +100,9 @@ def main():
 				surv = model.predict_survival_function(single_sample, return_array=True)
 				
 				survival = pd.DataFrame({'Probabilidade de Sobrevivência': value for value in surv})
-				survival['Meses'] = survival.index
+				survival['Meses'] = survival.index+1
+
+				survival = survival.head(faixa)
 
 				p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevivência', markers=True, title="Curva de probbilidade de sobrevivência")
 				p1.update_traces(line_color='#666a68')
@@ -110,7 +112,9 @@ def main():
 				surv2 = model.predict_cumulative_hazard_function(single_sample, return_array=True)
 
 				hazard = pd.DataFrame({'Hazard Acumulado': value for value in surv2})
-				hazard['Meses'] = hazard.index
+				hazard['Meses'] = hazard.index+1
+
+				hazard = hazard.head(faixa)	
 
 				p2 = px.line(hazard,x='Meses',y='Hazard Acumulado', markers=True, title="Predição da função de Hazard acumulada")
 				p2.update_traces(line_color='#666a68')
