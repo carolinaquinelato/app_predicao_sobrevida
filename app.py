@@ -102,7 +102,7 @@ def main():
 				survival = pd.DataFrame({'Probabilidade de Sobrevivência': value for value in surv})
 				survival['Meses'] = survival.index+1
 
-				survival = survival.head(faixa)
+				survival = survival.head(faixa*12)
 
 				p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevivência', markers=True, title="Curva de probbilidade de sobrevivência")
 				p1.update_traces(line_color='#666a68')
@@ -114,7 +114,7 @@ def main():
 				hazard = pd.DataFrame({'Hazard Acumulado': value for value in surv2})
 				hazard['Meses'] = hazard.index+1
 
-				hazard = hazard.head(faixa)	
+				hazard = hazard.head(faixa*12)	
 
 				p2 = px.line(hazard,x='Meses',y='Hazard Acumulado', markers=True, title="Predição da função de Hazard acumulada")
 				p2.update_traces(line_color='#666a68')
