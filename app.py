@@ -1,6 +1,5 @@
 
 import joblib
-from matplotlib.ft2font import FIXED_WIDTH
 import streamlit as st
 import streamlit.components.v1 as stc 
 import joblib
@@ -32,11 +31,17 @@ def main():
 	form = st.form(key="annotation")
 
 	with form:
-		
-		idade = st.number_input("Idade",1,100, value=54)
-		prog = st.radio("Progesterona", ('Positivo','Negativo'))
-		estadiamento = st.selectbox("Estadiamento",("IIA","IIB", "IIIA", "IIIB", "IIIC"))
-		estrog = st.radio("Estrogênio", ('Positivo','Negativo'))
+		col1,col2 = st.columns(2)
+
+		with col1:
+			idade = st.number_input("Idade",1,100, value=54)
+			prog = st.radio("Progesterona", ('Positivo','Negativo'))
+
+		with col2:	
+			estadiamento = st.selectbox("Estadiamento",("IIA","IIB", "IIIA", "IIIB", "IIIC"))
+			estrog = st.radio("Estrogênio", ('Positivo','Negativo'))
+			
+
 		tam_tumor = st.slider("Tamanho do tumor: ", min_value=1, max_value=150, value=24)
 		faixa = st.slider("Escolha quantos anos de visualização:", min_value=3, max_value=10, value=5)
 
@@ -86,34 +91,34 @@ def main():
 
 
 	if submitted:
-		single_sample = np.array(encoded_result).reshape(1,-1)
+			single_sample = np.array(encoded_result).reshape(1,-1)
 
-	
-		#gráfico 1
-		surv = model.predict_survival_function(single_sample, return_array=True)
-		
-		survival = pd.DataFrame({'Probabilidade de Sobrevivência': value for value in surv})
-		survival['Meses'] = survival.index+1
+			col1,col2 = st.columns(2)
 
-		survival = survival.head(faixa*12)
+			with col1:
 
-		p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevivência', markers=False, title="Curva de probbilidade de sobrevivência")
-		p1.update_layout(autosize=True)
-		p1.update_traces(line_color='#666a68')
-		st.plotly_chart(p1)
+				surv = model.predict_survival_function(single_sample, return_array=True)
+				
+				survival = pd.DataFrame({'Probabilidade de Sobrevivência': value for value in surv})
+				survival['Meses'] = survival.index+1
 
-		#gráfico 2
-		surv2 = model.predict_cumulative_hazard_function(single_sample, return_array=True)
+				survival = survival.head(faixa*12)
 
-		hazard = pd.DataFrame({'Hazard Acumulado': value for value in surv2})
-		hazard['Meses'] = hazard.index+1
+				p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevivência', markers=False, title="Curva de probbilidade de sobrevivência")
+				p1.update_traces(line_color='#666a68')
+				st.plotly_chart(p1)
 
-		hazard = hazard.head(faixa*12)	
+			with col2:
+				surv2 = model.predict_cumulative_hazard_function(single_sample, return_array=True)
 
-		p2 = px.line(hazard,x='Meses',y='Hazard Acumulado', markers=False, title="Predição da função de Hazard acumulada")
-		p2.update_layout(autosize=True)
-		p2.update_traces(line_color='#666a68')
-		st.plotly_chart(p2)
+				hazard = pd.DataFrame({'Hazard Acumulado': value for value in surv2})
+				hazard['Meses'] = hazard.index+1
+
+				hazard = hazard.head(faixa*12)	
+
+				p2 = px.line(hazard,x='Meses',y='Hazard Acumulado', markers=False, title="Predição da função de Hazard acumulada")
+				p2.update_traces(line_color='#666a68')
+				st.plotly_chart(p2)
 			
 if __name__ == "__main__":
     main()
