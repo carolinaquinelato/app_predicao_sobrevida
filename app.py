@@ -1,5 +1,6 @@
 
 import joblib
+from matplotlib.ft2font import FIXED_WIDTH
 import streamlit as st
 import streamlit.components.v1 as stc 
 import joblib
@@ -96,7 +97,7 @@ def main():
 
 		survival = survival.head(faixa*12)
 
-		p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevivência', markers=False, title="Curva de probbilidade de sobrevivência")
+		p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevivência', markers=False, title="Curva de probbilidade de sobrevivência", width=FIXED_WIDTH)
 		p1.update_traces(line_color='#666a68')
 		st.plotly_chart(p1)
 
