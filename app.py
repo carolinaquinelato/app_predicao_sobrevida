@@ -28,7 +28,7 @@ def main():
 
 	st.markdown("<h2 style='text-align: center; color: #989e9a;'>Selecione as informações abaixo para realizar a predição de sobrevida</h2>", unsafe_allow_html=True)
 
-	form = st.form(key="annotation")
+	#form = st.form(key="annotation")
 
 	
 	idade = st.number_input("Idade",1,100, value=54)
