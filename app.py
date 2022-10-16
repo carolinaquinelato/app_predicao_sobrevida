@@ -97,7 +97,7 @@ def main():
 
 		survival = survival.head(faixa*12)
 
-		p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevivência', markers=False, title="Curva de probbilidade de sobrevivência", width=FIXED_WIDTH)
+		p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevivência', markers=False, title="Curva de probbilidade de sobrevivência", autosize=True)
 		p1.update_traces(line_color='#666a68')
 		st.plotly_chart(p1)
 
@@ -109,7 +109,7 @@ def main():
 
 		hazard = hazard.head(faixa*12)	
 
-		p2 = px.line(hazard,x='Meses',y='Hazard Acumulado', markers=False, title="Predição da função de Hazard acumulada")
+		p2 = px.line(hazard,x='Meses',y='Hazard Acumulado', markers=False, title="Predição da função de Hazard acumulada", autosize=True)
 		p2.update_traces(line_color='#666a68')
 		st.plotly_chart(p2)
 			
