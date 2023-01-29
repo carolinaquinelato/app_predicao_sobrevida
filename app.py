@@ -1,11 +1,5 @@
 import streamlit as st
 
-st.set_page_config(
-	page_title="App Predição de Sobrevida",
-	page_icon="🎗️",
-	layout="wide",
-	initial_sidebar_state='auto'
-)
 
 import joblib
 import streamlit.components.v1 as stc 

@@ -11,6 +11,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px 
 
+st.set_page_config(
+	page_title="App Predição de Sobrevida",
+	page_icon="🎗️",
+	initial_sidebar_state='auto'
+)
 
 # Load ML Models
 
@@ -99,7 +104,7 @@ def run_grafico():
 			p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevivência', markers=False, title="Curva de probbilidade de sobrevida")
 			p1.update_layout(autosize=True)
 			p1.update_traces(line_color='#666a68')
-			st.plotly_chart(p1)
+			st.plotly_chart(p1, use_container_width=True)
 
 		with col2:
 			#gráfico 2
@@ -113,7 +118,7 @@ def run_grafico():
 			p2 = px.line(hazard,x='Meses',y='Hazard Acumulado', markers=False, title="Predição da função de Hazard acumulada")
 			p2.update_layout(autosize=True)
 			p2.update_traces(line_color='#666a68')
-			st.plotly_chart(p2)
+			st.plotly_chart(p2, use_container_width=True)
 
 		col3, col4, col5 = st.columns(3)
 
