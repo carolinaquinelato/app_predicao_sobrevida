@@ -38,7 +38,6 @@ def run_grafico():
 			estrog = st.radio("Estrogênio", ('Positivo','Negativo'))
 			tam_tumor = st.slider("Tamanho do tumor: ", min_value=1, max_value=150, value=24)
 			faixa = st.slider("Escolha quantos anos de visualização:", min_value=3, max_value=10, value=5)
-
 			submitted = st.form_submit_button(label="Submeter")
 		
 		if idade>53:

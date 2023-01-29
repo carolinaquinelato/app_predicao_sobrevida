@@ -22,14 +22,14 @@ from grafico import run_grafico
 
 
 def main():
-	menu = ["Sobre", "Predição"]
-	choice = st.sidebar.selectbox("Menu",menu)
+	# menu = ["Sobre", "Predição"]
+	# choice = st.sidebar.selectbox("Menu",menu)
 
-	if choice == "Sobre":
-		st.markdown("<h1 style='text-align: center; color:#666a68;'>Predição de Sobrevida para Câncer de Mama</h1>", unsafe_allow_html=True)
-		st.write('***Nota: esse modelo é um projeto de pesquisa e sua acurácia não pode ser garantida!***')
-	elif choice == "Predição":
-		run_grafico()
+	# if choice == "Sobre":
+	# 	st.markdown("<h1 style='text-align: center; color:#666a68;'>Predição de Sobrevida para Câncer de Mama</h1>", unsafe_allow_html=True)
+	# 	st.write('***Nota: esse modelo é um projeto de pesquisa e sua acurácia não pode ser garantida!***')
+	# elif choice == "Predição":
+	run_grafico()
 
 			
 if __name__ == "__main__":
