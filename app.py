@@ -18,7 +18,7 @@ import seaborn as sns
 import plotly.express as px 
 
 from grafico import run_grafico
-from streamlit_option_menu import option_menu
+# from streamlit_option_menu import option_menu
 
 
 def main():
