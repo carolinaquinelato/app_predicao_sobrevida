@@ -31,7 +31,7 @@ def run_grafico():
 	with st.sidebar:
 		model = load_model('model/rsf_2022.pkl')
 
-		st.markdown("<h2 style='text-align: center; color: #989e9a;'>Selecione as informações abaixo para realizar a predição de sobrevida</h2>", unsafe_allow_html=True)
+		# st.markdown("<h2 style='text-align: center; color: #989e9a;'>Selecione as informações abaixo para realizar a predição de sobrevida</h2>", unsafe_allow_html=True)
 
 		form = st.form(key="annotation")
 	
@@ -106,6 +106,21 @@ def run_grafico():
 			p1.update_traces(line_color='#666a68')
 			st.plotly_chart(p1, use_container_width=True)
 
+			st.metric(
+				label='1-Year survival probability',
+				value="{:.2f}%".format(surv[0, 11] * 100)
+			)
+
+			st.metric(
+				label='3-Year survival probability',
+				value="{:.2f}%".format(surv[0, 36] * 100)
+			)
+
+			st.metric(
+				label='5-Year survival probability',
+				value="{:.2f}%".format(surv[0, 60] * 100)
+			)
+
 		with col2:
 			#gráfico 2
 			surv2 = model.predict_cumulative_hazard_function(single_sample, return_array=True)
@@ -120,25 +135,16 @@ def run_grafico():
 			p2.update_traces(line_color='#666a68')
 			st.plotly_chart(p2, use_container_width=True)
 
-		col3, col4, col5 = st.columns(3)
+		# col3, col4, col5 = st.columns(3)
 
-		with col3:
-			st.metric(
-				label='1-Year survival probability',
-				value="{:.2f}%".format(surv[0, 12] * 100)
-			)
+		# with col3:
+			
 
-		with col4:
-			st.metric(
-				label='3-Year survival probability',
-				value="{:.2f}%".format(surv[0, 36] * 100)
-			)
+		# with col4:
+			
 
-		with col5:
-			st.metric(
-				label='5-Year survival probability',
-				value="{:.2f}%".format(surv[0, 60] * 100)
-			)
+		# with col5:
+			
 				
 		
 	st.subheader("Instruções:")
