@@ -11,25 +11,18 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px 
 
-st.set_page_config(
-	page_title="App Predição de Sobrevida",
-	page_icon="🎗️",
-	layout="wide"
-)
+
+# Load ML Models
+
+@st.cache(allow_output_mutation=True, show_spinner=False)
+def load_model(model_file):
+	model = joblib.load(open(os.path.join(model_file),"rb"))
+	return model
+
 
 def run_grafico():
-	@st.cache(allow_output_mutation=True)
-	
-
-	def load_model(model_file):
-		model = joblib.load(open(os.path.join(model_file),"rb"))
-		return model
-
 	st.markdown("<h1 style='text-align: center; color:#666a68;'>Predição de Sobrevida para Câncer de Mama</h1>", unsafe_allow_html=True)
-	st.subheader("Instruções:")
-	st.write("1. Selecione as informações do pacientes no menu à esquerda\n2. Pressione o botão para Submeter\n3. O modela irá gerar a predição de sobrevida")
-	st.write('***Nota: esse modelo é um projeto de pesquisa e sua acurácia não pode ser garantida!***')
-
+	
 	with st.sidebar:
 		model = load_model('model/rsf_2022.pkl')
 
@@ -94,32 +87,56 @@ def run_grafico():
 	if submitted:
 		single_sample = np.array(encoded_result).reshape(1,-1)
 
-	
+		col1, col2 = st.columns(2)
+		with col1:
 		#gráfico 1
-		surv = model.predict_survival_function(single_sample, return_array=True)
-		
-		survival = pd.DataFrame({'Probabilidade de Sobrevivência': value for value in surv})
-		survival['Meses'] = survival.index+1
-
-		survival = survival.head(faixa*12)
-
-		p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevivência', markers=False, title="Curva de probbilidade de sobrevivência")
-		p1.update_layout(autosize=True)
-		p1.update_traces(line_color='#666a68')
-		st.plotly_chart(p1)
-
-		#gráfico 2
-		surv2 = model.predict_cumulative_hazard_function(single_sample, return_array=True)
-
-		hazard = pd.DataFrame({'Hazard Acumulado': value for value in surv2})
-		hazard['Meses'] = hazard.index+1
-
-		hazard = hazard.head(faixa*12)	
-
-		p2 = px.line(hazard,x='Meses',y='Hazard Acumulado', markers=False, title="Predição da função de Hazard acumulada")
-		p2.update_layout(autosize=True)
-		p2.update_traces(line_color='#666a68')
-		st.plotly_chart(p2)
+			surv = model.predict_survival_function(single_sample, return_array=True)
 			
-if __name__ == "__main__":
-    main()
+			survival = pd.DataFrame({'Probabilidade de Sobrevivência': value for value in surv})
+			survival['Meses'] = survival.index+1
+
+			survival = survival.head(faixa*12)
+
+			p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevivência', markers=False, title="Curva de probbilidade de sobrevida")
+			p1.update_layout(autosize=True)
+			p1.update_traces(line_color='#666a68')
+			st.plotly_chart(p1)
+
+		with col2:
+			#gráfico 2
+			surv2 = model.predict_cumulative_hazard_function(single_sample, return_array=True)
+
+			hazard = pd.DataFrame({'Hazard Acumulado': value for value in surv2})
+			hazard['Meses'] = hazard.index+1
+
+			hazard = hazard.head(faixa*12)	
+
+			p2 = px.line(hazard,x='Meses',y='Hazard Acumulado', markers=False, title="Predição da função de Hazard acumulada")
+			p2.update_layout(autosize=True)
+			p2.update_traces(line_color='#666a68')
+			st.plotly_chart(p2)
+
+		col3, col4, col5 = st.columns(3)
+
+		with col3:
+			st.metric(
+				label='1-Year survival probability',
+				value="{:.2f}%".format(surv[0, 12] * 100)
+			)
+
+		with col4:
+			st.metric(
+				label='3-Year survival probability',
+				value="{:.2f}%".format(surv[0, 36] * 100)
+			)
+
+		with col5:
+			st.metric(
+				label='5-Year survival probability',
+				value="{:.2f}%".format(surv[0, 60] * 100)
+			)
+				
+		
+	st.subheader("Instruções:")
+	st.write("1. Selecione as informações do pacientes no menu à esquerda\n2. Pressione o botão para Submeter\n3. O modela irá gerar a predição de sobrevida")
+	st.write('***Nota: esse modelo é um projeto de pesquisa e sua acurácia não pode ser garantida!***')
