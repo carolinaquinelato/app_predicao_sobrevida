@@ -35,16 +35,20 @@ def run_grafico():
 
 		form = st.form(key="annotation")
 	
-		with form:
-			
+		# with form:
+		col1, col2 = st.columns(2)	
+		with col1:
 			idade = st.number_input("Idade",1,100, value=54)
 			prog = st.radio("Progesterona", ('Positivo','Negativo'))
+			tam_tumor = st.slider("Tamanho do tumor: ", min_value=1, max_value=150, value=24)
+		
+		with col2:
 			estadiamento = st.selectbox("Estadiamento",("IIA","IIB", "IIIA", "IIIB", "IIIC"))
 			estrog = st.radio("Estrogênio", ('Positivo','Negativo'))
-			tam_tumor = st.slider("Tamanho do tumor: ", min_value=1, max_value=150, value=24)
-			faixa = st.slider("Escolha quantos anos de visualização:", min_value=3, max_value=10, value=5)
-			submitted = st.form_submit_button(label="Submeter")
-		
+			faixa = st.slider("Anos de visualização:", min_value=3, max_value=10, value=5)
+		# submitted = st.form_submit_button(label="Submeter")
+		submitted = st.button("--------------------Submeter--------------------")
+	
 		if idade>53:
 			idade =1
 		else:
