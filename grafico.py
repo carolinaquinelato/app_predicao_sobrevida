@@ -95,12 +95,12 @@ def run_grafico():
 		#gráfico 1
 			surv = model.predict_survival_function(single_sample, return_array=True)
 			
-			survival = pd.DataFrame({'Probabilidade de Sobrevivência': value for value in surv})
+			survival = pd.DataFrame({'Probabilidade de Sobrevida': value for value in surv})
 			survival['Meses'] = survival.index+1
 
 			survival = survival.head(faixa*12)
 
-			p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevivência', markers=False, title="Curva de probbilidade de sobrevida")
+			p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevida', markers=False, title="Curva de probabilidade de sobrevida")
 			p1.update_layout(autosize=True)
 			p1.update_traces(line_color='#666a68')
 			st.plotly_chart(p1, use_container_width=True)
@@ -115,7 +115,7 @@ def run_grafico():
 
 			hazard = hazard.head(faixa*12)	
 
-			p2 = px.line(hazard,x='Meses',y='Hazard Acumulado', markers=False, title="Predição da função de Hazard acumulada")
+			p2 = px.line(hazard,x='Meses',y='Hazard Acumulado', markers=False, title="Curva de de Hazard acumulada")
 			p2.update_layout(autosize=True)
 			p2.update_traces(line_color='#666a68')
 			st.plotly_chart(p2, use_container_width=True)
