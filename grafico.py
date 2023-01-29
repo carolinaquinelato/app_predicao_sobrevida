@@ -40,7 +40,7 @@ def run_grafico():
 		estrog = st.radio("Estrogênio", ('Positivo','Negativo'))
 		faixa = st.slider("Anos de visualização:", min_value=3, max_value=10, value=5)
 		# submitted = st.form_submit_button(label="Submeter")
-		submitted = st.button("Submeter")
+		submitted = st.button(label="Submeter")
 		st.write('')
 		st.write('')
 	
