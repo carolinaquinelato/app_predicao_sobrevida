@@ -33,21 +33,14 @@ def run_grafico():
 
 		# st.markdown("<h2 style='text-align: center; color: #989e9a;'>Selecione as informações abaixo para realizar a predição de sobrevida</h2>", unsafe_allow_html=True)
 
-		form = st.form(key="annotation")
-	
-		# with form:
-		col1, col2 = st.columns(2)	
-		with col1:
-			idade = st.number_input("Idade",1,100, value=54)
-			prog = st.radio("Progesterona", ('Positivo','Negativo'))
-			tam_tumor = st.slider("Tamanho do tumor: ", min_value=1, max_value=150, value=24)
-		
-		with col2:
-			estadiamento = st.selectbox("Estadiamento",("IIA","IIB", "IIIA", "IIIB", "IIIC"))
-			estrog = st.radio("Estrogênio", ('Positivo','Negativo'))
-			faixa = st.slider("Anos de visualização:", min_value=3, max_value=10, value=5)
+		idade = st.number_input("Idade",1,100, value=54)
+		prog = st.radio("Progesterona", ('Positivo','Negativo'))
+		tam_tumor = st.slider("Tamanho do tumor: ", min_value=1, max_value=150, value=24)
+		estadiamento = st.selectbox("Estadiamento",("IIA","IIB", "IIIA", "IIIB", "IIIC"))
+		estrog = st.radio("Estrogênio", ('Positivo','Negativo'))
+		faixa = st.slider("Anos de visualização:", min_value=3, max_value=10, value=5)
 		# submitted = st.form_submit_button(label="Submeter")
-		submitted = st.button("--------------------Submeter--------------------")
+		submitted = st.button("                  Submeter                     ")
 	
 		if idade>53:
 			idade =1
@@ -110,20 +103,6 @@ def run_grafico():
 			p1.update_traces(line_color='#666a68')
 			st.plotly_chart(p1, use_container_width=True)
 
-			st.metric(
-				label='1-Year survival probability',
-				value="{:.2f}%".format(surv[0, 11] * 100)
-			)
-
-			st.metric(
-				label='3-Year survival probability',
-				value="{:.2f}%".format(surv[0, 36] * 100)
-			)
-
-			st.metric(
-				label='5-Year survival probability',
-				value="{:.2f}%".format(surv[0, 60] * 100)
-			)
 
 		with col2:
 			#gráfico 2
@@ -139,15 +118,27 @@ def run_grafico():
 			p2.update_traces(line_color='#666a68')
 			st.plotly_chart(p2, use_container_width=True)
 
-		# col3, col4, col5 = st.columns(3)
 
-		# with col3:
-			
+		col3, col4, col5 = st.columns(3)
 
-		# with col4:
-			
+		with col3:
+			st.metric(
+				label='1-Year survival probability',
+				value="{:.2f}%".format(surv[0, 11] * 100)
+			)	
 
-		# with col5:
+		with col4:
+			st.metric(
+				label='3-Year survival probability',
+				value="{:.2f}%".format(surv[0, 36] * 100)
+			)	
+
+		with col5:
+			st.metric(
+				label='5-Year survival probability',
+				value="{:.2f}%".format(surv[0, 60] * 100)
+			)
+		
 			
 				
 		
