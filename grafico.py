@@ -40,7 +40,9 @@ def run_grafico():
 		estrog = st.radio("Estrogênio", ('Positivo','Negativo'))
 		faixa = st.slider("Anos de visualização:", min_value=3, max_value=10, value=5)
 		# submitted = st.form_submit_button(label="Submeter")
-		submitted = st.button("                  Submeter                     ")
+		submitted = st.button("Submeter")
+		st.write('')
+		st.write('')
 	
 		if idade>53:
 			idade =1
@@ -118,24 +120,24 @@ def run_grafico():
 			p2.update_traces(line_color='#666a68')
 			st.plotly_chart(p2, use_container_width=True)
 
-
-		col3, col4, col5 = st.columns(3)
-
+		st.subheader('Sobrevida por anos')
+		col3, col4, col5 = st.columns([5,5,5])
+		
 		with col3:
 			st.metric(
-				label='1-Year survival probability',
-				value="{:.2f}%".format(surv[0, 11] * 100)
+				label='1-Ano',
+				value="{:.2f}%".format(surv[0, 11] * 100),
 			)	
 
 		with col4:
 			st.metric(
-				label='3-Year survival probability',
+				label='3-Anos',
 				value="{:.2f}%".format(surv[0, 36] * 100)
 			)	
 
 		with col5:
 			st.metric(
-				label='5-Year survival probability',
+				label='5-Anos',
 				value="{:.2f}%".format(surv[0, 60] * 100)
 			)
 		
