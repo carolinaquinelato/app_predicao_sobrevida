@@ -125,19 +125,19 @@ def run_grafico():
 		
 		with col3:
 			st.metric(
-				label='1-Ano',
+				label='1 Ano',
 				value="{:.2f}%".format(surv[0, 11] * 100),
 			)	
 
 		with col4:
 			st.metric(
-				label='3-Anos',
+				label='3 Anos',
 				value="{:.2f}%".format(surv[0, 36] * 100)
 			)	
 
 		with col5:
 			st.metric(
-				label='5-Anos',
+				label='5 Anos',
 				value="{:.2f}%".format(surv[0, 60] * 100)
 			)
 		
