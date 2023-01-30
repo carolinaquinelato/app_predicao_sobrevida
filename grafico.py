@@ -101,7 +101,7 @@ def run_grafico():
 			survival = survival.head(max_meses)
 			
 
-			p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevida', markers=False, title="Curva de probabilidade de sobrevida", range_y=[0, max_meses])
+			p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevida', markers=False, title="Curva de probabilidade de sobrevida")
 			p1.update_layout(autosize=True)
 			p1.update_traces(line_color='#666a68')
 			st.plotly_chart(p1, use_container_width=True)
