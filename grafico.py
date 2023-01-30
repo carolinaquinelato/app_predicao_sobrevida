@@ -97,10 +97,11 @@ def run_grafico():
 			
 			survival = pd.DataFrame({'Probabilidade de Sobrevida': value for value in surv})
 			survival['Meses'] = survival.index+1
+                        max_meses = faixa*12
+			survival = survival.head(max_meses)
+			
 
-			survival = survival.head(faixa*12)
-
-			p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevida', markers=False, title="Curva de probabilidade de sobrevida")
+			p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevida', markers=False, title="Curva de probabilidade de sobrevida", range_y=[0, max_meses])
 			p1.update_layout(autosize=True)
 			p1.update_traces(line_color='#666a68')
 			st.plotly_chart(p1, use_container_width=True)
