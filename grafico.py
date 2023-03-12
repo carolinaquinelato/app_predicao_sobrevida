@@ -19,7 +19,6 @@ st.set_page_config(
 
 # Load ML Models
 
-@st.cache(allow_output_mutation=True, show_spinner=False)
 def load_model(model_file):
 	model = joblib.load(open(os.path.join(model_file),"rb"))
 	return model
