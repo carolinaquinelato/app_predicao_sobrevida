@@ -110,12 +110,12 @@ def run_grafico():
 			#gráfico 2
 			surv2 = model.predict_cumulative_hazard_function(single_sample, return_array=True)
 
-			hazard = pd.DataFrame({'Hazard Acumulado': value for value in surv2})
+			hazard = pd.DataFrame({'Risco Acumulado': value for value in surv2})
 			hazard['Meses'] = hazard.index+1
 
 			hazard = hazard.head(faixa*12)	
 
-			p2 = px.line(hazard,x='Meses',y='Hazard Acumulado', markers=False, title="Curva de de Hazard acumulada")
+			p2 = px.line(hazard,x='Meses',y='Risco Acumulado', markers=False, title="Curva de de Risco Acumulado")
 			p2.update_layout(autosize=True)
 			p2.update_traces(line_color='#666a68')
 			st.plotly_chart(p2, use_container_width=True)
