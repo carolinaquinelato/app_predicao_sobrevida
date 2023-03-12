@@ -19,7 +19,7 @@ st.set_page_config(
 
 # Load ML Models
 
-#@st.cache(allow_output_mutation=True, show_spinner=False)
+@st.cache(allow_output_mutation=True, show_spinner=False)
 def load_model(model_file):
 	model = joblib.load(open(os.path.join(model_file),"rb"))
 	return model
@@ -97,8 +97,9 @@ def run_grafico():
 			
 			survival = pd.DataFrame({'Probabilidade de Sobrevida': value for value in surv})
 			survival['Meses'] = survival.index+1
-
-			survival = survival.head(faixa*12)
+                        max_meses = faixa*12
+			survival = survival.head(max_meses)
+			
 
 			p1 = px.line(survival,x='Meses',y='Probabilidade de Sobrevida', markers=False, title="Curva de probabilidade de sobrevida")
 			p1.update_layout(autosize=True)
