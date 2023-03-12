@@ -96,7 +96,7 @@ def run_grafico():
 			
 			survival = pd.DataFrame({'Probabilidade de Sobrevida': value for value in surv})
 			survival['Meses'] = survival.index+1
-                        max_meses = faixa*12
+			max_meses = faixa*12
 			survival = survival.head(max_meses)
 			
 
