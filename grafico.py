@@ -3,13 +3,11 @@ import joblib
 from matplotlib.ft2font import FIXED_WIDTH
 import streamlit as st
 import streamlit.components.v1 as stc 
-import joblib
 import os
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 import plotly.express as px 
+
 
 st.set_page_config(
 	page_title="App Predição de Sobrevida",
