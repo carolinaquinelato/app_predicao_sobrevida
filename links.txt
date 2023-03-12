@@ -1,0 +1,2 @@
+repositorio no git: https://github.com/carolinaquinelato/app_predicao_sobrevida
+link do app: https://predicao-sobrevida-cancer-de-mama.streamlit.app/
